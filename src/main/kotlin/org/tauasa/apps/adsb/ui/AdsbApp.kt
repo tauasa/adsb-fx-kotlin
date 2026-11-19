@@ -1,6 +1,7 @@
 package org.tauasa.apps.adsb.ui
 
 import javafx.animation.AnimationTimer
+import javafx.collections.transformation.SortedList
 import javafx.css.PseudoClass
 import javafx.application.Application
 import javafx.application.Platform
@@ -66,10 +67,7 @@ class AdsbApp : Application() {
     private val rateLabel = Label("—")
     private val countLabel = Label("0 aircraft")
 
-    // The table shows the tracker's live list directly. Order in that list carries
-    // no meaning (lookups go through the tracker's ICAO map), so the periodic
-    // table.sort() in the pump is free to reorder it in place.
-    private val table: TableView<Aircraft> = AircraftTable.create().apply { items = tracker.aircraft }
+    private val table: TableView<Aircraft> = AircraftTable.create()
     private val display = SituationDisplay(tracker)
 
     override fun start(stage: Stage) {
@@ -180,6 +178,12 @@ class AdsbApp : Application() {
     }
 
     private fun wireSelection() {
+        // Show the tracker's aircraft through a sorted view so column sorting
+        // reorders only the table, never the tracker's own list.
+        val sorted = SortedList(tracker.aircraft)
+        sorted.comparatorProperty().bind(table.comparatorProperty())
+        table.items = sorted
+
         table.selectionModel.selectedItemProperty().addListener { _, _, value ->
             display.selected.set(value)
         }

@@ -105,7 +105,7 @@ class SituationDisplay(private val tracker: AircraftTracker) : Pane() {
         g.font = labelFont
         for (step in 1..RING_COUNT) {
             val r = radius * step / RING_COUNT
-            g.stroke = if (step == RING_COUNT) Palette.RULE else Palette.GRID
+            g.stroke = if (step == RING_COUNT) Palette.RING_OUTER else Palette.RING
             g.strokeOval(cx - r, cy - r, r * 2, r * 2)
             val label = "${(rangeNm.get() * step / RING_COUNT).roundToInt()}"
             g.fill = Palette.DIM
@@ -123,7 +123,7 @@ class SituationDisplay(private val tracker: AircraftTracker) : Pane() {
             val angle = Math.toRadians(degrees.toDouble())
             val major = degrees % 30 == 0
             val inner = radius - if (major) 9.0 else 5.0
-            g.stroke = if (major) Palette.RULE else Palette.GRID
+            g.stroke = if (major) Palette.RING_OUTER else Palette.RING
             g.strokeLine(
                 cx + sin(angle) * inner,
                 cy - cos(angle) * inner,
@@ -152,7 +152,7 @@ class SituationDisplay(private val tracker: AircraftTracker) : Pane() {
         pixelsPerNm: Double,
     ) {
         if (target.trail.size < 2) return
-        g.stroke = Palette.TRAIL.deriveColor(0.0, 1.0, 1.0, 0.45)
+        g.stroke = Palette.TRAIL.deriveColor(0.0, 1.0, 1.0, 0.7)
         g.lineWidth = 1.0
         var previous: Pair<Double, Double>? = null
         for (fix in target.trail) {
@@ -184,7 +184,7 @@ class SituationDisplay(private val tracker: AircraftTracker) : Pane() {
         if (track != null && speed != null && speed > 0) {
             val angle = Math.toRadians(track.toDouble())
             val leaderNm = speed / 60.0
-            g.stroke = tint.deriveColor(0.0, 1.0, 1.0, 0.55)
+            g.stroke = tint.deriveColor(0.0, 1.0, 1.0, 0.8)
             g.lineWidth = 1.0
             g.strokeLine(x, y, x + sin(angle) * leaderNm * pixelsPerNm, y - cos(angle) * leaderNm * pixelsPerNm)
         }
@@ -194,13 +194,13 @@ class SituationDisplay(private val tracker: AircraftTracker) : Pane() {
         if (track != null) {
             drawChevron(g, x, y, track.toDouble())
         } else {
-            g.fillOval(x - 2.5, y - 2.5, 5.0, 5.0)
+            g.fillOval(x - 3, y - 3, 6.0, 6.0)
         }
 
         if (isSelected) {
             g.stroke = Palette.AMBER
             g.lineWidth = 1.2
-            g.strokeOval(x - 11, y - 11, 22.0, 22.0)
+            g.strokeOval(x - 13, y - 13, 26.0, 26.0)
         }
 
         drawDataBlock(g, target, x, y, tint, isSelected)
@@ -208,8 +208,8 @@ class SituationDisplay(private val tracker: AircraftTracker) : Pane() {
 
     private fun drawChevron(g: GraphicsContext, x: Double, y: Double, headingDegrees: Double) {
         val angle = Math.toRadians(headingDegrees)
-        val nose = 7.0
-        val tail = 4.5
+        val nose = 9.0
+        val tail = 5.5
         val spread = Math.toRadians(140.0)
         val xs = doubleArrayOf(
             x + sin(angle) * nose,
@@ -233,8 +233,8 @@ class SituationDisplay(private val tracker: AircraftTracker) : Pane() {
         isSelected: Boolean,
     ) {
         g.font = dataFont
-        g.fill = if (isSelected) Palette.AMBER else tint.deriveColor(0.0, 1.0, 1.0, 0.9)
-        g.fillText(target.label, x + 10, y - 4)
+        g.fill = if (isSelected) Palette.AMBER else tint
+        g.fillText(target.label, x + 12, y - 4)
 
         val flightLevel = target.altitudeFeet.get()?.let { String.format("%03d", it / 100) } ?: "---"
         val speed = target.groundSpeedKnots.get()?.let { String.format("%02d", it / 10) } ?: "--"
@@ -246,7 +246,7 @@ class SituationDisplay(private val tracker: AircraftTracker) : Pane() {
             }
         } ?: " "
         g.fill = Palette.DIM
-        g.fillText("$flightLevel$climb $speed", x + 10, y + 7)
+        g.fillText("$flightLevel$climb $speed", x + 12, y + 7)
     }
 
     private companion object {

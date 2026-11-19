@@ -11,16 +11,17 @@ object Palette {
 
     val INK: Color = Color.web("#0C1016")
     val PANEL: Color = Color.web("#141A22")
-    val RULE: Color = Color.web("#232D3A")
-    val GRID: Color = Color.web("#1D2733")
-    val TEXT: Color = Color.web("#C3CCD8")
-    val DIM: Color = Color.web("#63717F")
+    /** Range rings and compass ticks: bright enough to hold contrast against INK. */
+    val RING: Color = Color.web("#4D6580")
+    val RING_OUTER: Color = Color.web("#6F8BAA")
+    val TEXT: Color = Color.web("#DCE3EC")
+    val DIM: Color = Color.web("#B4C0CD")
     val AMBER: Color = Color.web("#F0A93B")
-    val TRAIL: Color = Color.web("#4E9DB8")
+    val TRAIL: Color = Color.web("#6CC3E0")
     val ALERT: Color = Color.web("#D9553B")
 
-    private val LOW_ALTITUDE: Color = Color.web("#F0A93B")
-    private val HIGH_ALTITUDE: Color = Color.web("#D8E4EE")
+    private val LOW_ALTITUDE: Color = Color.web("#FFBE55")
+    private val HIGH_ALTITUDE: Color = Color.web("#F2F8FC")
 
     /**
      * Targets are tinted by altitude band — saturated amber down low, pale and

@@ -10,8 +10,9 @@
     -fx-ink: #0C1016;
     -fx-panel: #141A22;
     -fx-rule: #232D3A;
-    -fx-text: #C3CCD8;
-    -fx-dim: #63717F;
+    -fx-text: #DCE3EC;
+    -fx-dim: #8A97A5;
+    -fx-header-text: #C4CFDB;
     -fx-amber: #F0A93B;
     -fx-alert: #D9553B;
 
@@ -53,7 +54,7 @@
 }
 
 .field-label {
-    -fx-text-fill: -fx-dim;
+    -fx-text-fill: -fx-header-text;
     -fx-font-size: 9px;
 }
 
@@ -70,6 +71,12 @@
 
 .text-field:focused {
     -fx-border-color: -fx-amber;
+}
+
+/* Same treatment as .choice-box:disabled: readable while locked during a connection. */
+.text-field:disabled {
+    -fx-opacity: 1;
+    -fx-text-fill: #B4C0CD;
 }
 
 /* Set when a coordinate field holds text that is not a usable number. */
@@ -89,6 +96,20 @@
 
 .choice-box .label {
     -fx-text-fill: -fx-text;
+}
+
+/*
+ * JavaFX fades disabled controls to 40% opacity, which made the source
+ * selector unreadable while connected. Keep it opaque and signal the locked
+ * state with a softer text and arrow colour instead.
+ */
+.choice-box:disabled {
+    -fx-opacity: 1;
+    -fx-mark-color: -fx-dim;
+}
+
+.choice-box:disabled .label {
+    -fx-text-fill: #B4C0CD;
 }
 
 .choice-box .context-menu {
@@ -141,7 +162,7 @@
 }
 
 .aircraft-table .column-header .label {
-    -fx-text-fill: -fx-dim;
+    -fx-text-fill: -fx-header-text;
     -fx-font-size: 10px;
     -fx-alignment: center-left;
 }
@@ -200,7 +221,7 @@
 }
 
 .status-item {
-    -fx-text-fill: -fx-dim;
+    -fx-text-fill: -fx-header-text;
     -fx-font-size: 11px;
 }
 
